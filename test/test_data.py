@@ -46,7 +46,7 @@ if __name__ == '__main__':
   for i, draw in df_test.iterrows():
     df_parcial = check_draw(f_in,draw)
     if df_total is not None:
-      df_total.append(df_parcial)
+      df_total = df_total.append(df_parcial)
     else:
       df_total = df_parcial.copy()
   max_num_success = df_total['success'].max()
