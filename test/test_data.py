@@ -44,9 +44,10 @@ if __name__ == '__main__':
   f_out = 'c:\\work\\github\\py-boletus\\out\\{0}_{1}_results_{2}.csv'
   df_total = None
   for i, draw in df_test.iterrows():
+    #import pdb;pdb.set_trace()
     df_parcial = check_draw(f_in,draw)
     if df_total is not None:
-      df_total.append(df_parcial)
+      df_total = df_total.append(df_parcial)
     else:
       df_total = df_parcial.copy()
   max_num_success = df_total['success'].max()
