@@ -52,4 +52,5 @@ if __name__ == '__main__':
       df_total = df_parcial.copy()
   df_total.sort_values(by=['success','comp','FECHA'],ascending=False,inplace=True)
   max_num_success = df_total['success'].max()
+  import pdb; pdb.set_trace()
   df_total.to_csv(f_out.format(max_num_success,'boletus','M'))
