@@ -1,6 +1,7 @@
 from datetime import datetime
 import pandas as pd
 import numpy as np
+from tqdm import tqdm
 
 stats = {}
 
@@ -9,10 +10,10 @@ def draw_to_str(draw, sep='_'):
     nums = np.asarray(draw).tolist()
     return sep.join(map(str,nums))
 
-def check_draw(df_lot, draw, sort=True):
-    df = df_lot.copy()
+def check_draw(df_historical, draw, sort=True):
+    df = df_historical.copy()
 
-    for i, row in df.iterrows():
+    for i, row in tqdm(df.iterrows(), total=df.shape[0], desc='historical'):
         success = 0
         for key, value in draw.items():
             if value in (row.N1, row.N2, row.N3, row.N4, row.N5, row.N6):
@@ -28,17 +29,17 @@ def check_draw(df_lot, draw, sort=True):
     return df
 
 if __name__ == '__main__':
-    f_test = r'/home/apollo/work/py-boletus/test/reducida_test.csv'
+    f_test = r'/home/apollo/work/py-boletus/test/oh_fortuna.csv'
 
     df_test = pd.read_csv(f_test, names=['N1', 'N2', 'N3', 'N4', 'N5', 'N6'])
 
     f_historical = r'/home/apollo/work/py-boletus/data/ES-bonoloto.csv'
     df_historical = pd.read_csv(f_historical, parse_dates=['FECHA'])
 
-    f_out = '/home/apollo/work/py-boletus/out/{0}_{1}_results_{2}.csv'
+    f_out = '/home/apollo/work/py-boletus/out/{0}_{1}_fortuna_{2}.csv'
     df_total = pd.DataFrame()
 
-    for i, draw in df_test.iterrows():
+    for i, draw in tqdm(df_test.iterrows(), total=df_test.shape[0], desc='draws'):
         df_parcial = check_draw(df_historical, draw, sort=False)
 
         if df_total.empty:
