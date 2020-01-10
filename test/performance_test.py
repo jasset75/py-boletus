@@ -2,7 +2,26 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from lib.scrutiny import check_draw, draw_to_str
+
+stats = {}
+
+def draw_to_str(draw, sep='_'):
+    nums = np.asarray(draw).tolist()
+    return sep.join(map(str,nums))
+
+def check_draw(df_historical, draw, sort=True):
+    df = df_historical.copy()
+    
+    for i, row in tqdm(enumerate(df.values), total=df.shape[0], desc='historical'):
+        s_row = set(row[1:7])
+        s_draw = set(draw)
+        success = len(s_draw.intersection(s_row))
+
+        df.at[i, 'draw'] = draw_to_str(draw)
+        df.at[i, 'success'] = success
+        df.at[i, 'comp'] = row[7] in s_draw
+
+    return df[df['success'] > 2]
 
 if __name__ == '__main__':
     f_test = r'/home/apollo/work/py-boletus/test/oh_fortuna.csv'
