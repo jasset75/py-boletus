@@ -46,7 +46,7 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
     df_test = pd.read_csv(f_test, names=['N1', 'N2', 'N3', 'N4', 'N5', 'N6'])
     df_historical = pd.read_csv(f_historical, parse_dates=['FECHA'])
 
-    for i, draw in tqdm(enumerate(df_test.values), total=df_test.shape[0], desc='draws'):
+    for _, draw in tqdm(enumerate(df_test.values), total=df_test.shape[0], desc='draws'):
         df_parcial = check_draw(df_historical, draw, sort=False)
 
         if df_total.empty:
@@ -61,3 +61,5 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
 
     max_num_success = df_total['success'].max()
     df_total.to_csv(f_out.format(max_num_success, 'boletus', 'M'))
+
+    return df_total

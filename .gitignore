@@ -90,3 +90,7 @@ ENV/
 
 # VS Code / Codium
 .vscode/
+
+# Mac OS
+.DS_store
+
