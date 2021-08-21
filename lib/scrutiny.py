@@ -50,10 +50,10 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
     # Data frame to store the results
     df_total = pd.DataFrame()
 
-    # Read the test file with the sample to be tested with the historical draws
+    # Read the test file with the sample to be tested with the historical combinations
     df_test = pd.read_csv(f_test, names=['N1', 'N2', 'N3', 'N4', 'N5', 'N6']).copy()
 
-    # Read the file with the historical draws
+    # Read the file with the historical combinations
     df_historical = pd.read_csv(f_historical, parse_dates=['FECHA']).copy()
 
     combinations_number = df_test.shape[0]
@@ -61,6 +61,7 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
         
     # Each combination is comparing with each draw in order to know the prize cathegory (if any)
     for _, draw in tqdm(enumerate(df_test.values), total=combinations_number, desc='draws'):
+        # Evaluating each draw
         df_parcial = check_draw(df_historical, draw, sort=False)
 
         if df_total.empty:
