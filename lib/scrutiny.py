@@ -1,7 +1,10 @@
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
+from lib import config
+from lib.logger import Log
 
+logger = Log()
 
 def draw_to_str(draw, sep='_'):
     """Readable representation of a draw."""
@@ -24,7 +27,7 @@ def check_draw(df_historical, draw, sort=True):
     return df[df['success'] > 2]
 
 
-def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_date_only=False):
+def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_date_only=False, verbose=True):
     """Test all numbers in ``f_test`` file with the historical draws and return the matches for each one.
 
     :param f_test: file with the numbers to test, each row for each independent experiment
@@ -42,11 +45,22 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
     :return: data frame with all success
     :rtype: pandas.DataFrame
     """
-    df_total = pd.DataFrame()
-    df_test = pd.read_csv(f_test, names=['N1', 'N2', 'N3', 'N4', 'N5', 'N6'])
-    df_historical = pd.read_csv(f_historical, parse_dates=['FECHA'])
+    config.verbose(verbose)
 
-    for _, draw in tqdm(enumerate(df_test.values), total=df_test.shape[0], desc='draws'):
+    # Data frame to store the results
+    df_total = pd.DataFrame()
+
+    # Read the test file with the sample to be tested with the historical draws
+    df_test = pd.read_csv(f_test, names=['N1', 'N2', 'N3', 'N4', 'N5', 'N6']).copy()
+
+    # Read the file with the historical draws
+    df_historical = pd.read_csv(f_historical, parse_dates=['FECHA']).copy()
+
+    combinations_number = df_test.shape[0]
+    logger.verbose(f'test size: {combinations_number}')
+        
+    # Each combination is comparing with each draw in order to know the prize cathegory (if any)
+    for _, draw in tqdm(enumerate(df_test.values), total=combinations_number, desc='draws'):
         df_parcial = check_draw(df_historical, draw, sort=False)
 
         if df_total.empty:
