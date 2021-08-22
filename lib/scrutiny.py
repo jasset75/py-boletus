@@ -69,12 +69,12 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
 
     # Read the test file with the sample to be tested with the historical combinations
     df_test = pd.read_csv(f_test, names=[
-        'N1',
-        'N2',
-        'N3',
-        'N4',
-        'N5',
-        'N6'
+        _N1,
+        _N2,
+        _N3,
+        _N4,
+        _N5,
+        _N6
     ]).copy()
 
     # Read the file with the historical combinations
