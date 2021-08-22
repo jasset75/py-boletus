@@ -16,6 +16,7 @@ def check_draw(df_historical, draw, sort=True):
     df = df_historical.copy()
 
     for i, row in tqdm(enumerate(df.values), total=df.shape[0], desc='historical'):
+        import ipdb; ipdb.set_trace()
         s_row = set(row[1:7])
         s_draw = set(draw)
         success = len(s_draw.intersection(s_row))

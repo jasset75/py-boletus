@@ -4,7 +4,7 @@ import sys
 from lib import config
 
 root = logging.getLogger()
-root.setLevel(logging.DEBUG)
+root.setLevel(logging.INFO)
 
 handler = logging.StreamHandler(sys.stdout)
 if config.debug:
