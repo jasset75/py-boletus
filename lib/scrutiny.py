@@ -6,25 +6,42 @@ from lib.logger import Log
 
 logger = Log()
 
-def draw_to_str(draw, sep='_'):
+# Historical data columns
+_DATE_COLUMN = 'DATE'
+_N1 = 'N1' 
+_N2 = 'N2'
+_N3 = 'N3'
+_N4 = 'N4'
+_N5 = 'N5'
+_N6 = 'N6'
+
+# Result columns
+_DRAW_COLUMN = 'draw'
+_MAX_SUCCESS_COLUMN = 'max_success'
+_COMP_COLUMN = 'comp'
+_COMP_COLUMN_INDEX = 7
+
+def draw_to_str(draw, sep='-'):
     """Readable representation of a draw."""
     nums = np.asarray(draw).tolist()
     return sep.join(map(str, nums))
 
 
 def check_draw(df_historical, draw, sort=True):
+    """Check a combination from historical draw."""
     df = df_historical.copy()
 
     for i, row in tqdm(enumerate(df.values), total=df.shape[0], desc='historical'):
         s_row = set(row[1:7])
         s_draw = set(draw)
         success = len(s_draw.intersection(s_row))
+        comp_number = row[_COMP_COLUMN_INDEX]
 
-        df.at[i, 'draw'] = draw_to_str(draw)
-        df.at[i, 'success'] = success
-        df.at[i, 'comp'] = row[7] in s_draw
-
-    return df[df['success'] > 2]
+        df.at[i, _DRAW_COLUMN] = draw_to_str(draw)
+        df.at[i, _MAX_SUCCESS_COLUMN] = int(success)
+        df.at[i, _COMP_COLUMN] = int(comp_number in s_draw)
+    
+    return df
 
 
 def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_date_only=False, verbose=True):
@@ -51,10 +68,17 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
     df_total = pd.DataFrame()
 
     # Read the test file with the sample to be tested with the historical combinations
-    df_test = pd.read_csv(f_test, names=['N1', 'N2', 'N3', 'N4', 'N5', 'N6']).copy()
+    df_test = pd.read_csv(f_test, names=[
+        'N1',
+        'N2',
+        'N3',
+        'N4',
+        'N5',
+        'N6'
+    ]).copy()
 
     # Read the file with the historical combinations
-    df_historical = pd.read_csv(f_historical, parse_dates=['FECHA']).copy()
+    df_historical = pd.read_csv(f_historical, parse_dates=[_DATE_COLUMN]).copy()
 
     combinations_number = df_test.shape[0]
     logger.verbose(f'test size: {combinations_number}')
@@ -63,18 +87,24 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
     for _, draw in tqdm(enumerate(df_test.values), total=combinations_number, desc='draws'):
         # Evaluating each draw
         df_parcial = check_draw(df_historical, draw, sort=False)
+        df_parcial = df_parcial[df_parcial[_MAX_SUCCESS_COLUMN] > 2]
 
         if df_total.empty:
             df_total = df_parcial.copy()
         else:
             df_total = df_total.append(df_parcial, sort=False)
 
+    # Order
     if order_date_only:
-        df_total.sort_values(by=['FECHA'], ascending=False, inplace=True)
+        df_total.sort_values(by=[_DATE_COLUMN], ascending=False, inplace=True)
     else:
-        df_total.sort_values(by=['success', 'comp', 'FECHA'], ascending=False, inplace=True)
+        df_total.sort_values(by=[_MAX_SUCCESS_COLUMN, _COMP_COLUMN, _DATE_COLUMN], ascending=False, inplace=True)
 
-    max_num_success = df_total['success'].max()
+    # Final config
+    df_total.fillna(0, inplace=True)
+    max_num_success = df_total[_MAX_SUCCESS_COLUMN].max()
+
+    # Save to file
     df_total.to_csv(f_out.format(max_num_success, 'boletus', 'M'))
 
     return df_total
