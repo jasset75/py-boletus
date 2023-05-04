@@ -92,7 +92,7 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
         if df_total.empty:
             df_total = df_parcial.copy()
         else:
-            df_total = df_total.append(df_parcial, sort=False)
+            df_total = df_total._append(df_parcial, sort=False)
 
     # Order
     if order_date_only:
