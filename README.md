@@ -25,6 +25,22 @@ In Bonoloto, the top category is simply `6 matches`, and that is the category th
 
 Bonoloto is also cheaper per bet. The official ticket price is `€0.50 per bet`, with a minimum ticket spend of `€1` if the ticket only participates in a single draw. La Primitiva costs `€1 per bet`. Because of that, Bonoloto can be viewed as a very efficient low-cost / upside game within the Spanish lottery family, although "best cost/benefit" is still an inference rather than an official metric.
 
+The rollover policy is also straightforward: if there is no `1st category` winner (`6 matches`), the corresponding amount rolls into the `BOTE` for the next draw. Official result pages state this explicitly as: the amount "passes to increase the jackpot for the following draw or session". In practice, that makes Bonoloto easier to read than La Primitiva if your main interest is the rollover attached to the plain `6/49` hit.
+
+From a player's point of view, the more interesting number is usually not the advertised `BOTE`, but the amount actually paid to the `1st category` winner. Those two numbers are related, but they are not always identical. A published jackpot is the advertised rollover figure before the draw, while the final first-prize payout can end up higher once the draw-specific prize pool is fully allocated.
+
+Using that criterion, these are the five largest Bonoloto `1st category` payouts that are consistently referenced across public historical sources:
+
+| 1st-category payout | Draw date |
+| --- | --- |
+| €10,614,853.61 | 17 January 2024 |
+| €7,694,919.65 | 11 December 2018 |
+| €7,219,705.92 | 18 November 1990 |
+| €7,113,423.67 | 19 November 2016 |
+| €7,042,570.46 | 20 June 2006 |
+
+Sources: public Bonoloto result archives and draw reports, including `rincondefortuna.es`, `laverdad.es`, `20minutos`, `Europa Press`, and SELAE - Loterias y Apuestas del Estado (formerly ONLAE).
+
 From a combinatorial point of view, both Bonoloto and La Primitiva are based on choosing `6 numbers from 49`. That means the search space is:
 
 ```text
