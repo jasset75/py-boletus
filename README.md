@@ -224,7 +224,7 @@ Generated outputs are written under `out/`. That directory is intentionally kept
 
 - [core/update_data.py](core/update_data.py): downloads new historical rows from Google Sheets and updates `data/ES-bonoloto.csv`
 - [scripts/test_data.py](scripts/test_data.py): minimal validation example using a small dataset
-- [scripts/boletus_fatum.py](scripts/boletus_fatum.py): runs the reduced-wheel sample from `test/reducida_test.csv`
+- [scripts/boletus_fatum.py](scripts/boletus_fatum.py): runs the reduced-wheel sample from `test/boletus_fatum.csv`
 - [scripts/oh_fortuna.py](scripts/oh_fortuna.py): runs the sample from `test/oh_fortuna.csv`
 
 ## Troubleshooting

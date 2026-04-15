@@ -8,7 +8,7 @@ if str(ROOT_DIR) not in sys.path:
 from lib.scrutiny import scrutiny
 
 if __name__ == '__main__':
-    f_test = ROOT_DIR / 'test' / 'reducida_test.csv'
+    f_test = ROOT_DIR / 'test' / 'boletus_fatum.csv'
     f_historical = ROOT_DIR / 'data' / 'ES-bonoloto.csv'
     f_out = str(ROOT_DIR / 'out' / '{0}_{1}_fatum_{2}.csv')
 
