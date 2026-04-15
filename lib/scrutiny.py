@@ -78,7 +78,11 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
     ]).copy()
 
     # Read the file with the historical combinations
-    df_historical = pd.read_csv(f_historical, parse_dates=[_DATE_COLUMN]).copy()
+    df_historical = pd.read_csv(
+        f_historical,
+        parse_dates=[_DATE_COLUMN],
+        dayfirst=True,
+    ).copy()
 
     combinations_number = df_test.shape[0]
     logger.verbose(f'test size: {combinations_number}')
@@ -92,7 +96,7 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
         if df_total.empty:
             df_total = df_parcial.copy()
         else:
-            df_total = df_total._append(df_parcial, sort=False)
+            df_total = pd.concat([df_total, df_parcial], ignore_index=True, sort=False)
 
     # Order
     if order_date_only:
