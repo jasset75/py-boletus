@@ -1,9 +1,11 @@
 import csv
 import urllib.request
 from datetime import datetime
+from pathlib import Path
 
 URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQALTRaLDFfhXOAQmeONPqmFKm9yOiQ4W97rhWgR41BZ7czFsjK5YktD6fnETKHGB9YUnyQ4XBSbhZx/pub?gid=0&single=true&output=csv'
-DATA_FILE = './data/ES-bonoloto.csv'
+ROOT_DIR = Path(__file__).resolve().parents[1]
+DATA_FILE = ROOT_DIR / 'data' / 'ES-bonoloto.csv'
 
 def main():
     print("Downloading new data from Google Sheets...")

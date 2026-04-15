@@ -73,17 +73,17 @@ This creates `.venv/` and installs the dependencies declared in [pyproject.toml]
 Run the included scripts:
 
 ```bash
-uv run python update_data.py
-uv run python test_data.py
-uv run python reducida_test.py
-uv run python oh_fortuna.py
+uv run python core/update_data.py
+uv run python scripts/test_data.py
+uv run python scripts/boletus_fatum.py
+uv run python scripts/oh_fortuna.py
 ```
 
 If you prefer activating the virtual environment first:
 
 ```bash
 source .venv/bin/activate
-python oh_fortuna.py
+python scripts/oh_fortuna.py
 ```
 
 ## Data Format
@@ -218,12 +218,14 @@ config.debug(False)
 
 The internal logger lives in [lib/logger.py](lib/logger.py).
 
+Generated outputs are written under `out/`. That directory is intentionally kept out of version control, except for a `.gitkeep` placeholder so the scripts always have a target directory.
+
 ## Included Scripts
 
-- [update_data.py](update_data.py): downloads new historical rows from Google Sheets and updates `data/ES-bonoloto.csv`
-- [test_data.py](test_data.py): minimal validation example using a small dataset
-- [reducida_test.py](reducida_test.py): runs the sample from `test/reducida_test.csv`
-- [oh_fortuna.py](oh_fortuna.py): runs the sample from `test/oh_fortuna.csv`
+- [core/update_data.py](core/update_data.py): downloads new historical rows from Google Sheets and updates `data/ES-bonoloto.csv`
+- [scripts/test_data.py](scripts/test_data.py): minimal validation example using a small dataset
+- [scripts/boletus_fatum.py](scripts/boletus_fatum.py): runs the reduced-wheel sample from `test/reducida_test.csv`
+- [scripts/oh_fortuna.py](scripts/oh_fortuna.py): runs the sample from `test/oh_fortuna.csv`
 
 ## Troubleshooting
 
@@ -249,10 +251,10 @@ If your `mise` version is still older than `v2026.3.10`, update it before debugg
 Use one of these two options:
 
 ```bash
-uv run python oh_fortuna.py
+uv run python scripts/oh_fortuna.py
 ```
 
 ```bash
 source .venv/bin/activate
-python oh_fortuna.py
+python scripts/oh_fortuna.py
 ```
