@@ -14,12 +14,26 @@ _N3 = 'N3'
 _N4 = 'N4'
 _N5 = 'N5'
 _N6 = 'N6'
+_NC = 'NC'
+_R = 'R'
 
 # Result columns
 _DRAW_COLUMN = 'draw'
 _MAX_SUCCESS_COLUMN = 'max_success'
 _COMP_COLUMN = 'comp'
 _COMP_COLUMN_INDEX = 7
+_INTEGER_COLUMNS = [
+    _N1,
+    _N2,
+    _N3,
+    _N4,
+    _N5,
+    _N6,
+    _NC,
+    _R,
+    _MAX_SUCCESS_COLUMN,
+    _COMP_COLUMN,
+]
 
 def draw_to_str(draw, sep='-'):
     """Readable representation of a draw."""
@@ -41,6 +55,15 @@ def check_draw(df_historical, draw, sort=True):
         df.at[i, _MAX_SUCCESS_COLUMN] = int(success)
         df.at[i, _COMP_COLUMN] = int(comp_number in s_draw)
     
+    return df
+
+
+def _normalize_result_types(df):
+    """Keep integer-like result columns as integers before exporting."""
+    for column in _INTEGER_COLUMNS:
+        if column in df.columns:
+            df[column] = df[column].astype(int)
+
     return df
 
 
@@ -91,7 +114,7 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
     for _, draw in tqdm(enumerate(df_test.values), total=combinations_number, desc='draws'):
         # Evaluating each draw
         df_parcial = check_draw(df_historical, draw, sort=False)
-        df_parcial = df_parcial[df_parcial[_MAX_SUCCESS_COLUMN] > 2]
+        df_parcial = df_parcial[df_parcial[_MAX_SUCCESS_COLUMN] >= success_filter]
 
         if df_total.empty:
             df_total = df_parcial.copy()
@@ -106,7 +129,8 @@ def scrutiny(f_test, f_historical, f_out, fmt='csv', success_filter=3, order_dat
 
     # Final config
     df_total.fillna(0, inplace=True)
-    max_num_success = df_total[_MAX_SUCCESS_COLUMN].max()
+    df_total = _normalize_result_types(df_total)
+    max_num_success = int(df_total[_MAX_SUCCESS_COLUMN].max())
 
     # Save to file
     df_total.to_csv(f_out.format(max_num_success, 'boletus', 'M'))

@@ -10,7 +10,7 @@ from lib.scrutiny import scrutiny
 if __name__ == '__main__':
     f_test = ROOT_DIR / 'test' / 'reducida_test.csv'
     f_historical = ROOT_DIR / 'data' / 'ES-bonoloto.csv'
-    f_out = str(ROOT_DIR / 'out' / '{0}_{1}_boletus_fatum_{2}.csv')
+    f_out = str(ROOT_DIR / 'out' / '{0}_{1}_fatum_{2}.csv')
 
     df = scrutiny(f_test, f_historical, f_out=f_out, fmt='csv', success_filter=5, order_date_only=False, verbose=True)
     print(df)
