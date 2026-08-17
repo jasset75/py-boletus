@@ -97,6 +97,11 @@ DATE,N1,N2,N3,N4,N5,N6,NC,R
 20/08/2021,02,14,15,45,46,47,48,0
 ```
 
+Historical prize data is stored separately in `data/ES-bonoloto-prizes.csv`.
+It contains winners and unit prizes for each category, revenue, jackpot fields,
+and the source URL. The current prize backfill is intentionally partial and
+starts with the two oldest verified draws from 28 and 29 February 1988.
+
 Combinations to test CSV:
 
 ```text
