@@ -77,6 +77,7 @@ uv run python core/update_data.py
 uv run python scripts/test_data.py
 uv run python scripts/boletus_fatum.py
 uv run python scripts/oh_fortuna.py
+uv run python scripts/propuesta_lotoideas.py
 ```
 
 If you prefer activating the virtual environment first:
@@ -226,6 +227,7 @@ Generated outputs are written under `out/`. That directory is intentionally kept
 - [scripts/test_data.py](scripts/test_data.py): minimal validation example using a small dataset
 - [scripts/boletus_fatum.py](scripts/boletus_fatum.py): runs the reduced-wheel sample from `test/boletus_fatum.csv`
 - [scripts/oh_fortuna.py](scripts/oh_fortuna.py): runs the sample from `test/oh_fortuna.csv`
+- [scripts/propuesta_lotoideas.py](scripts/propuesta_lotoideas.py): runs the sample from `test/propuesta_lotoideas.csv`
 
 ## Troubleshooting
 
